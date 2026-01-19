@@ -1,5 +1,7 @@
 package com.patientService.patientService.service;
 
+import com.patientService.patientService.dto.PatientResponseDto;
+import com.patientService.patientService.mapper.PatientMapper;
 import com.patientService.patientService.model.Patient;
 import com.patientService.patientService.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,4 +14,13 @@ import java.util.List;
 public class PatientService {
     private final PatientRepository patientRepo;
 
+    public  List<PatientResponseDto> getPatients(){
+        List<Patient> patients=patientRepo.findAll();
+//        best practice to return dto not full entity
+        return patients.stream().map(PatientMapper::toDto).toList();
+
+//        List<PatientResponseDto> patientResponseDtos= patients.stream()
+//                .map(patient -> PatientMapper.toDto(patient)).toList();
+//        return patientResponseDtos;
+    }
 }
