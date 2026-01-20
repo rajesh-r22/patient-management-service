@@ -28,3 +28,5 @@ public class PatientRequestDto {
     @NotNull(message = "Registered-Date should be valid")
     private String registeredDate;
 }
+
+//- Request DTO → frontend se aane wale JSON ko capture karta hai.
