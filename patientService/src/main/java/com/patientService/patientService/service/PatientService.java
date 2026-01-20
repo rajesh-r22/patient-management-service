@@ -1,5 +1,6 @@
 package com.patientService.patientService.service;
 
+import com.patientService.patientService.dto.PatientRequestDto;
 import com.patientService.patientService.dto.PatientResponseDto;
 import com.patientService.patientService.mapper.PatientMapper;
 import com.patientService.patientService.model.Patient;
@@ -16,11 +17,17 @@ public class PatientService {
 
     public  List<PatientResponseDto> getPatients(){
         List<Patient> patients=patientRepo.findAll();
-//        best practice to return dto not full entity
+//      Best practice to return dto not full entity
         return patients.stream().map(PatientMapper::toDto).toList();
 
 //        List<PatientResponseDto> patientResponseDtos= patients.stream()
 //                .map(patient -> PatientMapper.toDto(patient)).toList();
 //        return patientResponseDtos;
+    }
+
+//   createPatient() → Request DTO ko entity mein convert karta hai → DB mein save karta hai → saved entity ko DTO mein convert karke return karta hai.
+    public PatientResponseDto createPatient(PatientRequestDto patientRequestDto){
+        Patient newPatient=patientRepo.save(PatientMapper.toModel(patientRequestDto));
+        return PatientMapper.toDto(newPatient);
     }
 }
