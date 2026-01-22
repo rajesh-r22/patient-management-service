@@ -1,5 +1,6 @@
 package com.patientService.patientService.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,7 @@ public class PatientRequestDto {
 
     @NotNull(message = "email should be valid")
     @Email
+    @Size(min =10,message = "email should contain Minimum 10 characters")
     private String email;
 
     @NotNull(message = "Address cannot be blank ")
