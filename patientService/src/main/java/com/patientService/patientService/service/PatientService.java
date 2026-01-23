@@ -2,6 +2,7 @@ package com.patientService.patientService.service;
 
 import com.patientService.patientService.dto.PatientRequestDto;
 import com.patientService.patientService.dto.PatientResponseDto;
+import com.patientService.patientService.exception.EmailAlreadyExistException;
 import com.patientService.patientService.mapper.PatientMapper;
 import com.patientService.patientService.model.Patient;
 import com.patientService.patientService.repository.PatientRepository;
@@ -26,7 +27,10 @@ public class PatientService {
     }
 
 //   createPatient() → Request DTO ko entity mein convert karta hai → DB mein save karta hai → saved entity ko DTO mein convert karke return karta hai.
-    public PatientResponseDto createPatient(PatientRequestDto patientRequestDto){
+    public PatientResponseDto createPatient(PatientRequestDto patientRequestDto)   {
+        if(patientRepo.existsByEmail(patientRequestDto.getEmail())){
+            throw new EmailAlreadyExistException("Email already exists"+patientRequestDto.getEmail());
+        }
         Patient newPatient=patientRepo.save(PatientMapper.toModel(patientRequestDto));
         return PatientMapper.toDto(newPatient);
     }

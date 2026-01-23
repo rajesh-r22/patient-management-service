@@ -24,7 +24,7 @@ public class PatientController {
     
 //Frontend JSON → Request DTO → Entity → Database → Entity → Response DTO → Frontend JSON
     @PostMapping
-    public ResponseEntity<PatientResponseDto> createPatient(@Valid @RequestBody PatientRequestDto patientRequestDto){
+    public ResponseEntity<PatientResponseDto> createPatient(@Valid @RequestBody PatientRequestDto patientRequestDto)  {
         PatientResponseDto patientResponseDto=patientService.createPatient(patientRequestDto);
         return ResponseEntity.ok().body(patientResponseDto);
     }
