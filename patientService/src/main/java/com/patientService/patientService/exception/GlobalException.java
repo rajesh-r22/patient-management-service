@@ -33,7 +33,7 @@ public class GlobalException {
 
     // Handle custom EmailAlreadyExistException
     @ExceptionHandler(EmailAlreadyExistException.class)
-    public ResponseEntity<Map<String,String>> handleValidationException(EmailAlreadyExistException ex){
+    public ResponseEntity<Map<String,String>> handleEmailAlreadyExistException(EmailAlreadyExistException ex){
         // Log warning with exception message
         log.warn("email already exists{}", ex.getMessage());
 
@@ -42,6 +42,12 @@ public class GlobalException {
         errors.put("message","email already exists");
 
         // Return 400 Bad Request with custom message
+        return ResponseEntity.badRequest().body(errors);
+    }
+    public ResponseEntity<Map<String,String>> handlePatientNotFoundException(PatientNotFoundException ex){
+        log.warn("Patient not fount{}",ex.getMessage());
+        Map<String,String> errors=new HashMap<>();
+        errors.put("message","Patient not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
