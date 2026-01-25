@@ -29,6 +29,7 @@ public class PatientService {
 //        return patientResponseDtos;
     }
 
+
 //   createPatient() → Request DTO ko entity mein convert karta hai → DB mein save karta hai → saved entity ko DTO mein convert karke return karta hai.
     public PatientResponseDto createPatient(PatientRequestDto patientRequestDto)   {
         if(patientRepo.existsByEmail(patientRequestDto.getEmail())){
@@ -38,16 +39,17 @@ public class PatientService {
         return PatientMapper.toDto(newPatient);
     }
 
+
     public PatientResponseDto updatePatient(UUID id, PatientRequestDto patientRequestDto){
         // Find existing patient
         Patient patient = patientRepo.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found " + id));
 
-        //   Check if email already exists
-        if(patientRepo.existsByEmail(patientRequestDto.getEmail())){
-            throw new EmailAlreadyExistException("Email already exists"+patientRequestDto.getEmail());
+        // Check if any other patient (not the current one) already has the same email
+        if(patientRepo.existsByEmailAndIdNot(patientRequestDto.getEmail(), id)) {
+            // If true, throw custom exception to prevent duplicate email usage
+            throw new EmailAlreadyExistException("Email already exists " + patientRequestDto.getEmail());
         }
-
         // Update patient entity with new values from DTO
         patient.setName(patientRequestDto.getName());
         patient.setEmail(patientRequestDto.getEmail());
