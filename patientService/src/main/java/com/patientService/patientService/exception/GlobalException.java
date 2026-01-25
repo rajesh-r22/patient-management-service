@@ -43,6 +43,8 @@ public class GlobalException {
         // Return 400 Bad Request with custom message
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<Map<String,String>> handlePatientNotFoundException(PatientNotFoundException ex){
         log.warn("Patient not fount{}",ex.getMessage());
         Map<String,String> errors=new HashMap<>();
