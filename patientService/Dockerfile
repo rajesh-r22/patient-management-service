@@ -10,11 +10,12 @@ COPY src ./src
 
 RUN mvn clean package
 
-FROM openjdk:21-jdk AS runner
+FROM openjdk:21-ea AS runner
 
 WORKDIR /app
 
-COPY --from=builder ./app/target/patientService-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=builder /app/target/patientService-0.0.1-SNAPSHOT.jar app.jar
+
 
 EXPOSE 4000
 
